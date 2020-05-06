@@ -1,0 +1,19 @@
+{% extends 'catalogv2/main.html'%}
+{% block content%}
+<div class="card col s12 row" style="max-width: 500px; max-height: 650px; margin: 100px auto;">
+<div class="card-content col s12">
+<form  method = "POST"> 
+    {% csrf_token %}
+    {% for field in form%}
+    <div class="input-field">
+    {{ field.label_tag }}
+    {{ field }}
+    <span class="helper-text" data-error="{{ field.errors.as_text }}"></span>
+    </div>
+{% endfor%}
+<input class = "btn col s12" type = "submit" value = "Register"/>
+</form>
+</div>
+</div>
+{% endblock content%}
+

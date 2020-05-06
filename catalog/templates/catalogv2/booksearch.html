@@ -1,0 +1,20 @@
+{% extends "catalogv2/main.html"%}
+
+{% block content%}
+            <table style="margin: auto; max-width: 1000; min-width: 550px;">
+              <tr> <th>Search result for: {{ search.title }}</th>
+                </tr>
+                  <tr style="margin: 0px; padding: 0px; overflow-x: hidden">
+                      <td><ul class = 'collection' style="max-width: 550px; min-width: 550px">
+                            {% for i in book%}
+                            <li class = 'collection-item avatar' >
+                            <i class="material-icons circle teal">menu_book</i>
+                            <a style ="color: teal;"href="{% url 'instance' i.id %}">
+                            <strong><u>{{i.title}}</u></strong></a><br>
+                            {{i.author}}<br>{{i.publisher}}: {{i.yearPub.year}}<br>
+                            </li>
+                            {% endfor%}
+                    </ul></td>
+                <tr>
+              </table>
+{% endblock%}

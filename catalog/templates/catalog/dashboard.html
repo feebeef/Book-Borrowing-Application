@@ -1,0 +1,53 @@
+{% extends 'catalog/main.html'%}
+
+
+{% block content%}
+	<div  class="row">
+
+		<div class="col-md-5">
+			<div class="card card-body">
+				<h5>Borrowed Books</h5>
+			</div>
+			<div class="card card-body">
+				<a class="btn btn-primary btn-sm btn-block" href="">Books</a>
+				<table class="table table-sm">
+					<tr>
+						<th>Title</th>
+						<th>Author</th>
+						<th>Due Back</th>
+						<th></th>
+					</tr>
+
+					{% for i in borrow %}
+					<tr>
+						<td>{{i.book}}</td>
+						<td>{{i.book.author}}</td>
+						<td>{{i.due_back}}</td>
+						<td><a href="" class="btn btn-sm btn-danger">Return</a></td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+
+		<div class="col-md-7">
+			<div class="card card-body">
+				<h5>Something Books</h5>
+			</div>
+			<div class="card card-body">
+				<a class="btn btn-primary btn-sm btn-block" href="">LMAO</a>
+				<table class="table table-sm">
+					<tr>
+						<th></th>
+						<th>Something</th>
+						<th>Something</th>
+						<th>Something</th>
+						<th>Something</th>
+						<th>Something</th>
+						<th>Something</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock content%}

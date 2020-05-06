@@ -1,0 +1,57 @@
+{% extends "catalogv2/main.html"%}
+{% block content%}
+<div style="max-width: 950; margin: auto;">
+        <div class="col s7">
+        <table class="col table">
+            <tr><th>
+                <a  href="{% url 'books' %}" class="breadcrumb">Profile</a>
+             </th></tr>
+            <tr><td>
+                <ul class="collection" style="max-width: 550px;">
+                    <li class="collection-item avatar">
+                        <i class="material-icons circle large">face</i>
+                        <span><label>Name: </label><h7>{{user.first_name}} {{user.last_name}}</h7></span><br>
+                        <label>ID Number: </label>{{user.idnum}}<br>
+                        <label>Email: </label>{{user.email}}<br>
+                    </li>
+                </ul>
+            </td></tr>
+            <tr><th>Books Borrowed</th></tr>
+        </table>
+        <table class="table">
+                <tr><td>
+                <form method = 'POST'>
+                {% csrf_token %}
+                <ul class = 'collection' style="max-width: 550px; min-width: 550px">
+                        {% for i in borrowed_book %}
+                        <li class = 'collection-item avatar' >
+                        <i class="material-icons circle teal">menu_book</i>
+                        <a style ="color: teal;"href="{% url 'instance' i.book_instance.book.id%}">
+                        <strong><u>{{i.book_instance.book.title}}</u></strong></a> 
+                        <br>{{i.book_instance.book.author}} ( {{i.book_instance.book.yearPub.year}} )
+                        <br>Due on: {{i.book_instance.due_back}}</li>
+                        {% endfor %}
+                </ul>
+                </form>
+                </td></tr>
+        </table>
+        </div>
+    
+        <table class="table  col s5">
+                <tr><th>Your Reviews</th></tr>
+                <tr><td>
+                <ul class="collection">
+                {% for i in review%}
+                    <li class="collection-item avatar">
+                    <i class="material-icons circle">rate_review</i>
+                    <a style ="color: teal;"href="{% url 'instance' i.book.id%}">
+                    <strong><u>{{i.book.title}}</u></strong></a>
+                    <label>by {{i.book.author}}</label><br>
+                    <p>{{i.text}}</p>
+                    </li>
+                {% endfor%}
+                </ul>
+                </td></tr>
+        </table>
+    </div>
+{% endblock%}

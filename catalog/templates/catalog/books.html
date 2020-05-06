@@ -1,0 +1,33 @@
+{% extends 'catalog/main.html'%}
+
+
+{% block content%}
+<br />
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Books</h5>
+		</div>
+		<div class="card card-body">
+			<table class="table">
+				<tr>
+					<th>Title</th>
+					<th>Author</th>
+					<th>Review</th>
+				</tr>
+
+				{% for i in books %}
+					<tr>
+						<td><a href="{% url 'instance' i.id %}" class="btn btn-sm btn-info">{{i.title}}</a></td>
+						<td>{{i.author}}</td>
+						<td>{{i.review}}</td>
+					</tr>
+				{% endfor %}
+					 
+				
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock content%}

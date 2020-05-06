@@ -1,0 +1,44 @@
+{% extends 'catalogv2/main.html'%}
+
+
+{% block content%}
+<div class="card col s6" style="max-width: 450px; max-height: 400px; margin: 100px auto;">
+<div class="card-content">
+
+<div id = "signin">
+    <form method = "POST" > 
+            {% csrf_token %}
+             <div class="row">
+                <div class="input-field col s12">
+                    <input requred = '' aria-required = True placeholder="" id="un" type="text" name = 'username' class="{{validate}} validate">
+                    <label for="un">Username</label>
+                </div>
+                <div class="input-field col s12">
+                    <input requred = '' aria-required = True  placeholder="" id="ps" type="password" name = 'password' class="{{validate}} validate">
+                    <label for="ps">Password</label>
+                    <span class="helper-text" data-error="Invalid Credentials." data-success=""></span>
+                </div>
+               
+                <input class = "btn col s12 large" type = "submit" value = "Sign In"></input>
+             </div> 
+    </form>
+    
+    <form method = "POST" class="col s12" > 
+    {% csrf_token %}
+      <div class="row">
+      <input type="hidden" name="guest"  value= 1>
+      <input class = "btn large col s12" type = "submit" value = "Sign In as Guest"></input>
+    </div>
+    </form>
+  </div>
+
+</div>
+</div>
+
+
+<script type="javascript">
+    $(document).ready(function(){
+      $('.tabs').tabs();
+    });
+</script>
+{% endblock content%}

@@ -1,0 +1,64 @@
+{% extends 'catalog/main.html'%}
+
+
+{% block content%}
+
+
+<div style="margin: auto;">
+        <div class="card card-body">
+            <h5>Book</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table">
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                    <th>Year of Pub</th>
+                    <th>ISBN</th>
+                    <th>Review</th>
+                </tr>
+
+                <tr>
+                    <td><a>{{book.title}}</a></td>
+                    <td>{{book.author}}</td>
+                    <td>{{book.publisher}}</td>
+                    <td>{{book.yearPub}}</td>
+                    <td>{{book.isbn}}</td>
+                    <td width="45px">{{book.review}}</td>
+                </tr>
+
+
+            </table>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card card-body">
+            <h5>Book Copies</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Available On</th>
+                    <th></th>
+                </tr>
+
+                {% for i in instance %}
+                <tr>
+                    <td>{{i.book.title}}</td>
+                    <td>{{i.status}}</td>
+                    <td>{{i.due_back}}</td>
+                    {% if i.status == 'a' %}
+                    <td><a href="{% url 'reserve' i.id %}" class="btn btn-sm btn-success">Borrow</a></td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content%}

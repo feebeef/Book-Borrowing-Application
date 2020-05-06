@@ -1,0 +1,116 @@
+{% load static %}
+{% load auth_extras %}
+
+<ul id="dropdown" class="dropdown-content">
+        {% if user.is_authenticated and user|has_group:"Teacher/Student" %} 
+        <li><a href="{% url 'changepassword' %}">Change Password</a></li>
+        {% endif  %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+
+  <nav>
+        <div id="nav-mobile" class="nav-wrapper">
+          <ul class="left">
+              <li><a href="{% url 'books' %}">Books</a></li>
+              <li><form method = 'GET' action = "{% url 'search' %}"style="position: absolute; background-color: darkcyan; margin-left: 40px">  
+                  {% csrf_token %} 
+                  <div class="input-field" style = "max-width: 700px;">
+                    <input  autocomplete="off" id="search" type="search" placeholder="Search" name="search">
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                  </div>
+               </form>
+              </li>
+              
+          </ul>
+          <ul id="nav-mobile" class="right">
+            {% if user.is_authenticated and user|has_group:"Teacher/Student" %} 
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a class="dropdown-trigger" data-target="dropdown">Account
+            <i class="material-icons right">arrow_drop_down</i>
+            </a></li>
+            {% elif 'guest' in request.session %}
+            <li><a href="{% url 'register' %}">Register<li>
+            <li><a class="dropdown-trigger" data-target="dropdown">Guest
+                <i class="material-icons right">arrow_drop_down</i>
+            </a></li>
+            {% else %}
+            <li><a href="{% url 'signin' %}">Sign in</a></li>
+            <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+  
+
+<script>
+$(document).ready(function(){
+    $('.dropdown-trigger').dropdown();
+});
+$("#search").on("focus",function () {
+      var input = $(this).val();
+      $.ajax({
+        url: "{% url 'suggest' %}",
+        data: {
+          'input': input
+        },
+        dataType: 'json',
+        success: function (data) {
+          let dict = {}
+            data.data.forEach((value, index, array)=>{
+              dict[value.title] = "{% url 'instance' value.id}"
+              //alert(dict[value.title])
+            })
+            $("#search").autocomplete({data: dict, limit: 5});
+            $("#search").open()
+        }
+})});
+
+</script>
+
+<style>
+.breadcrumb, .breadcrumb:last-child, .breadcrumb:before {
+   color:gray;
+   font-size: 1em;
+   font-weight: bold;
+   
+}
+.breadcrumb::before{
+  vertical-align:baseline;
+    line-height: 16px;
+}
+nav{
+  background-color: teal;
+}
+
+th{
+  color: gray
+}
+
+*{
+  font-size: 1em;
+}
+
+
+p{
+  font-size: 0.95em;
+  letter-spacing: 0.025em;
+}
+
+table.highlight>tbody>tr:hover {
+    background-color:rgba(14, 151, 151, 0.445)!important;
+    
+}
+
+
+
+table>tbody>tr td, th{
+  border-radius: 0;
+}
+
+
+table {border: none !important;}
+
+
+</style>

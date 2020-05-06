@@ -1,0 +1,107 @@
+{% extends 'catalogv2/main.html'%}
+{% load auth_extras %}
+
+{% block content%}
+<div class="row" style="max-width: 1000">
+    <div class="col s7">
+    <table class="col table">
+        <tr><th>
+            <a  href="{% url 'books' %}" class="breadcrumb">Books</a>
+            <a href="" class="breadcrumb">{{book.title}}</a>
+         </th></tr>
+        <tr><td>
+            <ul class="collection" style="max-width: 550px;">
+                <li class="collection-item">
+                    <span><label>Title: </label><h7>{{book.title}}</h7></span><br>
+                    <label>Author: </label>{{book.author}}<br>
+                    <label>Publisher: </label>{{book.publisher}}<br>
+                    <label>Year: </label>{{book.yearPub.year}}<br>
+                    <label>ISBN: </label>{{book.isbn}}
+                </li>
+            </ul>
+        </td></tr>
+        <tr><th>Copies</th></tr>
+    </table>
+    <table class="table highlight">
+                <tr>
+                <th></th>
+                <th><label>Status</label></th>
+                <th><label>Available on</label></th>
+                <th></th>
+                </tr>
+                {% for i in instance %}
+                <tr>
+                    <form method = 'POST'>
+                    {% csrf_token %}
+                    <input type="hidden" name="instance_id" value= {{i.id}}>
+                    <td class class = 'collection-item avatar'>
+                    {% if i.status == 'a' %}<i class="material-icons">done</i>
+                    {% else %}<i class="material-icons">remove</i>{% endif %}
+                    </td>
+
+                    <td>
+                    {% if i.status == 'a' %}  Available
+                    {% else %} Reserved{% endif %}
+                    </td>
+
+                    {% if i.status == 'r'%}
+                    <td>{{i.due_back}}</td>
+                    {% else%}<td>-</td>{% endif%}
+
+                    {% if i.status == 'a' and user.is_authenticated and user|has_group:"Teacher/Student" %}                   
+                    <td><button class="btn btn-small waves-effect waves-light" type="submit">borrow
+                    <i class="material-icons left">library_add</i>
+                    </button></td>
+                    {% else%}<td>-</td>{% endif%}
+
+                    </form>
+
+                </tr>
+                
+                
+                {% endfor %}
+            </table>
+    </div>
+
+    <table class="table col s5">
+            <tr>
+            <th>Reviews<a class = "secondary-content"href="{% url 'review' book.id %}"><u>view all</u></a></th>           
+            </tr>
+            <tr>
+            <td>
+            <ul class="collection">
+                {% for i in review%}
+                <li class="collection-item avatar">
+                <i class="large material-icons circle">face</i>
+                <label>{{i.user.first_name}} {{i.user.last_name}}</label><br>
+                <p>{{i.text}}</p>
+                </li>
+                {% endfor%}
+            </ul></tr>
+            {% if user.is_authenticated and user|has_group:"Teacher/Student" %} 
+            <tr>
+                <td><a class = 'btn'href = "{% url 'review' book.id %}">
+                Write Review
+                <i class="material-icons left small">edit</i></a></td>
+            </tr>
+            {% endif %}
+        </td>
+    </table>
+</div>
+
+
+    <script>
+            $(document).ready(function(){
+              $('input.autocomplete').autocomplete({
+                data: {
+                  "Apple": null,
+                  "Microsoft": null,
+                  "Google": 'https://placehold.it/250x250'
+                },
+              });
+            });
+
+
+    </script>
+
+{% endblock content%}

@@ -1,0 +1,48 @@
+{% extends "catalogv2/main.html"%}
+{% load auth_extras %}
+{% block content%}
+
+            <table style="margin: auto; max-width: 1000; min-width: 550px;">
+                <tr><th>
+                    <a  href="{% url 'books' %}" class="breadcrumb">Books</a>
+                    <a  href="{% url 'instance' book.id %}" class="breadcrumb">{{book.title}}</a>
+                    <a href="" class="breadcrumb">Reviews</a>
+                </th></tr>
+                        {% if user.is_authenticated and user|has_group:"Teacher/Student" %}  
+                        <tr style="margin: 0px; padding: 0px; overflow-x: hidden">
+                        <td>
+                            <div style="margin: auto; max-height: 150px; width: 850px; ">
+                            <form method = "POST" >
+                            {% csrf_token %}
+                            <div class="input-field col s5"  style="max-height: 150px; width: 850px; ">
+                            <textarea id="textarea2" class="materialize-textarea validate" 
+                            style="max-height: 150px; height: 100px; width: 750px; padding: 0px; overflow-y: auto" 
+                            data-length="1000" name="review"
+                             placeholder="leave a review.." value = "" required aria-required></textarea>
+                            </div>
+                            <div style="margin: auto"><input class="btn" type="submit" value = "Submit"/></div>
+                            </form>
+                            </div>
+                        </td>
+                        <tr>
+                        {% endif %}
+                        <tr><th>All Reviews</th></tr>
+                        <tr><td>
+                            <ul class="collection">
+                                {% for i in review%}
+                                <li class="collection-item avatar">
+                                <i class="large material-icons teal circle">face</i>
+                                <label>{{i.user.first_name}} {{i.user.last_name}}</label><br>
+                                <p>{{i.text}}</p>
+                                </li>
+                                {% endfor%}
+                            </ul>
+                        </td></tr>
+         </table>
+
+         <script>             
+            $(document).ready(function() {
+                $('input#input_text, textarea#textarea2').characterCounter();
+            });
+         </script>
+{% endblock%}

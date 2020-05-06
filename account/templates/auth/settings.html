@@ -1,0 +1,34 @@
+{% extends 'catalogv2/main.html'%}
+
+
+{% block content%}
+<div class="card col s6" style="max-width: 600px; margin: 100px auto;">
+<div class="card-content">
+    <form method = "POST" > 
+      {% csrf_token %}
+             <div class="row">
+                  <div class="input-field col s12">
+                    <input placeholder="" id="old" type="password" name = 'old' class={{validate}}>
+                    <label for="old">Old Password</label>
+                    <span class="helper-text" data-error="Old Password does not match." data-success=""></span>
+                  </div>
+                  <div class="input-field col s12">
+                      <input placeholder="" id="new" type="password" name = 'new' class={{validate}}>
+                      <label for="new">New Password</label>
+                      <span class="helper-text" data-error="Password does not match." data-success=""></span>
+                  </div>
+                  <div class="input-field col s12">
+                        <input placeholder="" id="conf" type="password" name = 'conf' class={{validate}}>
+                        <label for="conf">Confirm Password</label>
+                        <span class="helper-text" data-error="Password does not match." data-success=""></span>
+                  </div>
+                  
+            </div>
+            <input class = "btn col s12 large" type = "submit" value = "Change Password"></input>
+    </form>
+  </div>
+
+</div>
+</div>
+
+{% endblock content%}
