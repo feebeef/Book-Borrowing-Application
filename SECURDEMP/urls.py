@@ -5,10 +5,9 @@ from catalog import views as catalog_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include(('account.urls', 'account'),  namespace='account')),
     path('signin/', auth_views.signin, name = 'signin'),
     path('register/', auth_views.register, name = 'register'),
     path('catalog/',include('catalog.urls')),
-    path('logout/', auth_views.logout, name = 'logout'),
+    path('logout/', auth_views.logout_user, name = 'logout'),
     path('changepassword', auth_views.change_password, name = 'changepassword'),
 ]

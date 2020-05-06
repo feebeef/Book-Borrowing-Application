@@ -8,19 +8,17 @@
       {% csrf_token %}
              <div class="row">
                   <div class="input-field col s12">
-                    <input placeholder="" id="old" type="password" name = 'old' class={{validate}}>
+                    <input placeholder="" id="old" type="password" name = 'old' class="{{validate}} validate">
                     <label for="old">Old Password</label>
-                    <span class="helper-text" data-error="Old Password does not match." data-success=""></span>
                   </div>
                   <div class="input-field col s12">
-                      <input placeholder="" id="new" type="password" name = 'new' class={{validate}}>
+                      <input placeholder="" id="new" type="password" name = 'new'class="{{validate}} validate">
                       <label for="new">New Password</label>
-                      <span class="helper-text" data-error="Password does not match." data-success=""></span>
                   </div>
                   <div class="input-field col s12">
-                        <input placeholder="" id="conf" type="password" name = 'conf' class={{validate}}>
+                        <input placeholder="" id="conf" type="password" name = 'conf' class="{{validate}} validate">
                         <label for="conf">Confirm Password</label>
-                        <span class="helper-text" data-error="Password does not match." data-success=""></span>
+                        <span class="helper-text" data-error="{{error}}" data-success=""></span>
                   </div>
                   
             </div>
