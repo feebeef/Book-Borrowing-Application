@@ -8,22 +8,23 @@ from .decorators import login_required, teacher_student_required, guest_or_teach
 from django.contrib.auth.models import Group
 from .models import Account
 
-@login_required
+@guest_or_teacher_student_required
 def logout_user(request):
     logout(request)
     return render(request, 'auth/signin.html', {})
 
-@login_required
+@guest_or_teacher_student_required
 def change_password(request):
     if request.method == 'GET':
         return render(request, "auth/settings.html")
 
     if request.POST.get('new') != request.POST.get('conf'):
         return render(request, 'auth/settings.html', {'error': 'password did not match', 'validate': 'invalid'})
-    elif request.user.password != request.POST.get('old'):
+    elif not authenticate(username = request.user.username, password = request.POST.get('old')):
         return render(request, 'auth/settings.html', {'error': 'invalid old password', 'validate': 'invalid'})
     else:
-        request.user.set_password(request.POST(new))
+        request.user.set_password(request.POST.get('new'))
+        request.user.save()
         return HttpResponseRedirect(reverse('home'))
     
 def init_form(data, username_err,  password_err, email_err, idnum_err):
