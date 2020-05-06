@@ -24,9 +24,6 @@ def teacher_student_required(function):
 
 def guest_or_teacher_student_required(function):
     def wrapper(request, *args, **kwargs):
-        decorated_view_func = login_required(request)
-        if not decorated_view_func.user.is_authenticated:
-            return HttpResponseRedirect(reverse('home'))
         if 'guest' in request.session:
             return function(request, *args, **kwargs)
         teacher_or_student = Account.objects.filter(pk=request.user.id, groups__name='Teacher/Student').exists()
